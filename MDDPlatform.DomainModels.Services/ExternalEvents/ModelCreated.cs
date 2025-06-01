@@ -10,8 +10,9 @@ namespace MDDPlatform.DomainModels.Services.ExternalEvents{
         public string Tag {get;set;}
         public string Type {get;set;}
         public int Level {get;set;}
+        public Guid LanguageId {get;}
 
-        public ModelCreated(Guid domainId, Guid modelId, string name, string tag, string type, int level)
+        public ModelCreated(Guid domainId, Guid modelId, string name, string tag, string type, int level,Guid languageId)
         {
             DomainId = domainId;
             ModelId = modelId;
@@ -19,6 +20,7 @@ namespace MDDPlatform.DomainModels.Services.ExternalEvents{
             Tag = tag;
             Type = type;
             Level = level;
+            LanguageId = languageId;
         }
     }
 

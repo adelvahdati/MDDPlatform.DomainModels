@@ -10,4 +10,8 @@
     <PackageReference Include="MDDPlatform.SharedKernel" Version="3.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\MDDPlatform.BaseConcepts\MDDPlatform.BaseConcepts.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -1,6 +1,4 @@
-using MDDPlatform.DomainModels.Application.DTO;
 using MDDPlatform.DomainModels.Core.ValueObjects;
-using MDDPlatform.SharedKernel.ValueObjects;
 
 namespace MDDPlatform.DomainModels.Infrastructure.Data.Models
 {
@@ -19,24 +17,11 @@ namespace MDDPlatform.DomainModels.Infrastructure.Data.Models
 
         internal static ConceptDocument CreateFrom(Concept c)
         {
-            return new ConceptDocument(c.TraceId.Value,c.Name,c.Type);
+            return new ConceptDocument(c.Id,c.Name.Value,c.Type.Value);
         }
-        public Concept ToCore(){
-            var action  = Concept.Create(Name,Type);
-            if(action.Status == SharedKernel.ActionResults.ActionStatus.Failure)
-                throw new CoreModelCreationException();
-            
-            if(Equals(action.Result,null))
-                throw new CoreModelCreationException();
-            
-            Concept concept =  action.Result;
-            concept.TraceId = TraceId.Load(Id);
-
+        public Concept ToConcept(){
+            var concept  = Concept.Create(Id,Name,Type);
             return concept;
-        }
-        public ConceptDto ToDto()
-        {
-            return new ConceptDto(Id,Name,Type);
         }
     }
 }

@@ -1,29 +1,35 @@
-using MDDPlatform.SharedKernel.ActionResults;
+using MDDPlatform.BaseConcepts.ValueObjects;
+using MDDPlatform.DomainModels.Core.Entities;
 using MDDPlatform.SharedKernel.ValueObjects;
 
 namespace MDDPlatform.DomainModels.Core.ValueObjects
 {
 
-    public class Concept : TraceableValueObject
+    public class Concept : ValueObject
     {
-        public string Name { get; }
-        public string Type { get; }
-
-        private Concept(string name, string type)
+        public Guid Id {get;}
+        public ConceptName Name { get; }
+        public ConceptType Type { get; }
+        public ConceptFullName FullName => ConceptFullName.Create(Name,Type);
+        private Concept(Guid id,ConceptName name, ConceptType type)
         {
+            Id = id;
             Name = name;
             Type = type;
         }
-        public static IActionResult<Concept> Create(string name, string type)
+        public static Concept Create(Guid id,string name, string type)
+        {            
+            var conceptName = new ConceptName(name);
+            var conceptType = new ConceptType(type);
+            return new Concept(id,conceptName,conceptType);
+        }
+        public static Concept CreateFrom(DomainConcept domainConcept)
         {
-            // To Do check null and empty string
-
-            return TheAction.IsDone<Concept>(new Concept(name, type));
+            return Create(domainConcept.Id,domainConcept.Name,domainConcept.Type);
         }
         protected override IEnumerable<object> GetEqualityComponents()
         {
-            yield return Name;
-            yield return Type;
+            yield return FullName.Value.Trim().ToLower();
         }
     }
 }
